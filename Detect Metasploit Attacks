@@ -1,0 +1,46 @@
+Link for Typhoon VM OVA: https://www.vulnhub.com/entry/typhoon-102,267/
+
+Kali Linux Download: https://www.kali.org/get-kali/
+
+
+##################### Wazuh Manager ###################################
+
+nano /var/ossec/etc/shared/default/agent.conf
+
+<wodle name="command">
+    <disabled>no</disabled>
+    <tag>ps-list</tag>
+    <command>ps -eo user,pid,cmd</command>
+    <interval>10s</interval>
+    <ignore_output>no</ignore_output>
+    <run_on_start>yes</run_on_start>
+    <timeout>5</timeout>
+</wodle>
+
+
+nano /var/ossec/etc/rules/local_rules.xml
+
+<group name="wazuh,">
+    <rule id="100001" level="0">
+        <location>command_ps-list</location>
+        <description>List of running process.</description>
+        <group>process_monitor,</group>
+    </rule>
+
+    <rule id="100002" level="10">
+        <if_sid>100001</if_sid>
+        <match>eval(base64_decode</match>
+        <description>Reverse shell detected.</description>
+        <group>process_monitor,attacks</group>
+    </rule>
+</group>
+
+
+systemctl restart wazuh-manager
+
+
+################ Wazuh Agent #########################
+
+echo -e "wazuh_command.remote_commands=1" >> /var/ossec/etc/local_internal_options.conf
+
+service wazuh-agent restart
