@@ -1,5 +1,14 @@
 Link for Typhoon VM OVA: https://www.vulnhub.com/entry/typhoon-102,267/
 
+Username: typhoon
+password: 789456123
+
+su - admin
+password: metallica
+
+sudo /bin/bash
+password: metallica
+
 Kali Linux Download: https://www.kali.org/get-kali/
 
 
@@ -24,6 +33,11 @@ exploit
 shell
 
 python -c 'import pty; pty.spawn("/bin/bash")'
+
+
+##################### Typhoon Server ######################
+
+ps -eo user,pid,cmd | grep www-data
 
 ##################### Wazuh Manager ###################################
 
