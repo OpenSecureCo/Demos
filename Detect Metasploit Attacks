@@ -21,6 +21,10 @@ show options
 
 exploit
 
+shell
+
+python -c 'import pty; pty.spawn("/bin/bash")'
+
 ##################### Wazuh Manager ###################################
 
 nano /var/ossec/etc/shared/default/agent.conf
