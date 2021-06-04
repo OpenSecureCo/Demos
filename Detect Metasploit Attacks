@@ -58,7 +58,7 @@ nano /var/ossec/etc/shared/default/agent.conf
 
 nano /var/ossec/etc/rules/local_rules.xml
 
-<group name="wazuh,">
+<group name="commands,">
     <rule id="100001" level="0">
         <location>command_ps-list</location>
         <description>List of running process.</description>
