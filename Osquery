@@ -58,3 +58,17 @@ nano /etc/osquery/osquery.conf
 systemctl enable osqueryd
 systemctl start osqueryd
 
+##### Processes running without a binary on disk #######
+SELECT name, path, pid FROM processes WHERE on_disk = 0;
+
+##### Primary disks that are unencrypted #######
+SELECT * FROM mounts m, disk_encryption d
+WHERE m.device_alias = d.name
+AND m.path = "/"
+AND d.encrypted = 0;
+
+##### Servers with root login in last hour #####
+SELECT * FROM last
+WHERE username = "root"
+AND time > (( SELECT unix_time FROM time ) - 3600 );
+
