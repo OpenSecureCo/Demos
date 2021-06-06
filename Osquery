@@ -1,0 +1,60 @@
+Red Hat, CentOS and Fedora:
+curl -L https://pkg.osquery.io/rpm/GPG | tee /etc/pki/rpm-gpg/RPM-GPG-KEY-osquery
+yum-config-manager --add-repo https://pkg.osquery.io/rpm/osquery-s3-rpm.repo
+yum-config-manager --enable osquery-s3-rpm
+yum install osquery
+
+Debian and Ubuntu based Linux distributions:
+export OSQUERY_KEY=1484120AC4E9F8A1A577AEEE97A80C63C9D8B80B
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $OSQUERY_KEY
+add-apt-repository 'deb [arch=amd64] https://pkg.osquery.io/deb deb main'
+apt-get update
+apt-get install osquery
+
+
+Windows:
+https://pkg.osquery.io/windows/osquery-4.8.0.msi
+
+########## Post Install ################
+
+nano /etc/osquery/osquery.conf
+
+{
+    "options": {
+        "config_plugin": "filesystem",
+        "logger_plugin": "filesystem",
+        "utc": "true"
+    },
+
+    "schedule": {
+        "system_info": {
+        "query": "SELECT hostname, cpu_brand, physical_memory FROM system_info;",
+        "interval": 3600
+        },
+        "high_load_average": {
+        "query": "SELECT period, average, '70%' AS 'threshold' FROM load_average WHERE period = '15m' AND average > '0.7';",
+        "interval": 900,
+        "description": "Report if load charge is over 70 percent."
+        },
+        "low_free_memory": {
+        "query": "SELECT memory_total, memory_free, CAST(memory_free AS real) / memory_total AS memory_free_perc, '10%' AS threshold FROM memory_info WHERE memory_free_perc < 0.1;",
+        "interval": 1800,
+        "description": "Free RAM is under 10%."
+        }
+    },
+
+    "packs": {
+        "osquery-monitoring": "/usr/share/osquery/packs/osquery-monitoring.conf",
+        "incident-response": "/usr/share/osquery/packs/incident-response.conf",
+        "it-compliance": "/usr/share/osquery/packs/it-compliance.conf",
+        "vuln-management": "/usr/share/osquery/packs/vuln-management.conf",
+        "hardware-monitoring": "/usr/share/osquery/packs/hardware-monitoring.conf",
+        "ossec-rootkit": "/usr/share/osquery/packs/ossec-rootkit.conf"
+    }
+}
+
+
+
+systemctl enable osqueryd
+systemctl start osqueryd
+
