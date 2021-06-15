@@ -15,6 +15,9 @@ apt-get install osquery
 Windows:
 https://pkg.osquery.io/windows/osquery-4.8.0.msi
 
+
+osqueryi
+
 ########## Post Install ################
 
 nano /etc/osquery/osquery.conf
