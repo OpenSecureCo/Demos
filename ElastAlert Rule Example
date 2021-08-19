@@ -1,0 +1,31 @@
+es_host: 192.168.1.178
+es_port: 9200
+name: Wazuh
+type: frequency
+index: wazuh-alerts-4.x-*
+num_events: 1
+timeframe:
+    hours: 1
+filter:
+- term:
+    rule.id: "102103"
+realert:
+  minutes: 0
+alert: hivealerter
+hive_connection:
+  hive_host: https://192.168.1.207
+  hive_port: 9000
+  hive_apikey: 
+
+hive_alert_config:
+  type: 'external'
+  source: 'elastalert'
+  description: '{rule[name]}'
+  severity: 2
+  tags: ['{rule[name]}', '{match[data][alert][signature]}', '{match[data][alert][signature_id]}']
+  tlp: 3
+  status: 'New'
+  follow: True
+
+hive_observable_data_mapping:
+    - ip: "{match[data][srcip]}"
