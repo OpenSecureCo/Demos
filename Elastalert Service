@@ -1,0 +1,24 @@
+nano /etc/systemd/system/elastalert.service
+
+[Unit]
+Description=Elastalert
+# executed after this
+After=syslog.target
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/opt/elastalert
+Environment="SOME_KEY_1=value" "SOME_KEY_2=value2"
+# restart on unexpected exits
+Restart=always
+# first argument must be an absolute path, rest are arguments to it
+ExecStart=/usr/bin/python3 -m elastalert.elastalert --verbose --config config.yaml
+# startup/shutdown grace period
+TimeoutSec=60
+
+[Install]
+# executed before this
+WantedBy=multi-user.target
