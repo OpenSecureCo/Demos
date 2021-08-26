@@ -1,0 +1,29 @@
+In SAML settings, set Single sign on URL and the Audience URI (SP Entity ID). Enter the below kibana url as the Single sign on URL.
+
+https://<kibana_base_url>:<kibana_port>/_opendistro/_security/saml/acs
+
+Make sure to replace the kibana_base_url and kibana_port with your actual Kibana configuration as noted in the prerequisites. In my setup this is https://new-kibana.ad.example.com:5601/....
+
+Add a string for the Audience URI. You can choose any name here. I used kibana-saml. You will use this name in the Elasticsearch Security plugin SAML config as the SP-entity-id.
+
+authc:
+      basic_internal_auth_domain:
+        http_enabled: true
+        transport_enabled: true
+        order: 0
+        http_authenticator:
+          type: "basic"
+          challenge: false
+        authentication_backend:
+          type: "intern"
+      saml_auth_domain:
+        http_enabled: true
+        transport_enabled: false
+        order: 1
+        http_authenticator:
+          type: saml
+          challenge: true
+          config:
+ idp: metadata_file: adfs.xml entity_id: http://sts.ad.example.com/adfs/services/trust sp: entity_id: kibana-saml kibana_url: https://new-kibana.ad.example.com:5601/ roles_key: Roles exchange_key: 'AbCDefg123......' 
+        authentication_backend:
+          type: noop
