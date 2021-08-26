@@ -30,6 +30,7 @@ authc:
         authentication_backend:
           type: noop
 
+/usr/share/elasticsearch/plugins/opendistro_security/tools/securityadmin.sh -cacert /etc/elasticsearch/root-ca.pem -cert /etc/elasticsearch/admin.pem -key /etc/elasticsearch/admin-key.pem -h <Cluster-IP-or-FQDN> -f <Path-to-config>/config.yml -t config
 
 Kibana configuration
 
