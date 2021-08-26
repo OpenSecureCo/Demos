@@ -2,9 +2,11 @@ In SAML settings, set Single sign on URL and the Audience URI (SP Entity ID). En
 
 https://<kibana_base_url>:<kibana_port>/_opendistro/_security/saml/acs
 
-Make sure to replace the kibana_base_url and kibana_port with your actual Kibana configuration as noted in the prerequisites. In my setup this is https://new-kibana.ad.example.com:5601/....
+Make sure to replace the kibana_base_url and kibana_port with your actual Kibana configuration as noted in the prerequisites. In my setup this is https://mydemo.opensecure.co:443
 
 Add a string for the Audience URI. You can choose any name here. I used kibana-saml. You will use this name in the Elasticsearch Security plugin SAML config as the SP-entity-id.
+
+You will pass the user’s group memberships from Okta to Elasticsearch using Okta’s group attribute statements. Set the Name to “Roles”. The name you choose must match the roles_key defined in Open Distro Security’s configuration. Click Next and Finish.
 
 authc:
       basic_internal_auth_domain:
@@ -27,3 +29,16 @@ authc:
  idp: metadata_file: adfs.xml entity_id: http://sts.ad.example.com/adfs/services/trust sp: entity_id: kibana-saml kibana_url: https://new-kibana.ad.example.com:5601/ roles_key: Roles exchange_key: 'AbCDefg123......' 
         authentication_backend:
           type: noop
+
+
+Kibana configuration
+
+Since most of the SAML specific configuration is done in Open Distro Security, you can simply activate SAML in your kibana.yml by adding:
+
+opendistro_security.auth.type: "saml"
+In addition, you must whitelist the Kibana endpoint for validating the SAML assertions and the logout endpoint:
+
+server.xsrf.whitelist: ["/_opendistro/_security/saml/acs", "/_opendistro/_security/saml/logout"]
+In order to test your configuration, you must restart Kibana.
+
+sudo systemctl restart kibana.service
