@@ -26,7 +26,7 @@ authc:
           type: saml
           challenge: true
           config:
- idp: metadata_file: adfs.xml entity_id: http://sts.ad.example.com/adfs/services/trust sp: entity_id: kibana-saml kibana_url: https://new-kibana.ad.example.com:5601/ roles_key: Roles exchange_key: 'AbCDefg123......' 
+ idp: metadata_url: https://yourmetadataurl entity_id: http://sts.ad.example.com/adfs/services/trust sp: entity_id: kibana-saml kibana_url: https://new-kibana.ad.example.com:5601/ roles_key: Roles exchange_key: 'AbCDefg123......' 
         authentication_backend:
           type: noop
 
