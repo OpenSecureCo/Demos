@@ -26,11 +26,23 @@ authc:
           type: saml
           challenge: true
           config:
- idp: metadata_url: https://yourmetadataurl entity_id: http://sts.ad.example.com/adfs/services/trust sp: entity_id: kibana-saml kibana_url: https://new-kibana.ad.example.com:5601/ roles_key: Roles exchange_key: 'AbCDefg123......' 
+            idp:
+              metadata_url: https://opensecure.okta.com/app/exk1iwqp6Kq8yg5YX696/sso/saml/metadata
+              entity_id: http://www.okta.com/exk1iwqp6Kq8yg5YX696
+            sp:
+              entity_id: kibana-saml
+            kibana_url: https://mydemo.opensecure.co/
+            roles_key: Roles
+            exchange_key: '186ddd9598ccc1af98fba8db6281b5528eb06d7709edd2cf49a6f410d6379120'
         authentication_backend:
           type: noop
 
 export JAVA_HOME=/usr/share/elasticsearch/jdk/ && /usr/share/elasticsearch/plugins/opendistro_security/tools/securityadmin.sh -cd /usr/share/elasticsearch/plugins/opendistro_security/securityconfig/ -nhnv -cacert /etc/elasticsearch/certs/root-ca.pem -cert /etc/elasticsearch/certs/admin.pem -key /etc/elasticsearch/certs/admin-key.pem
+
+OR
+
+cd /usr/share/elasticsearch/plugins/opendistro_security/tools/
+./securityadmin.sh -cd ../securityconfig/ -icl -nhnv -cacert /etc/elasticsearch/certs/root-ca.pem -cert /etc/elasticsearch/certs/admin.pem -key /etc/elasticsearch/certs/admin-key.pem
 
 Kibana configuration
 
