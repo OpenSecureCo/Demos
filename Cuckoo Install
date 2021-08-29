@@ -1,13 +1,13 @@
 
 
 sudo apt-get update
-sudo apt-get -y install python virtualenv python-pip python-dev build-essential
-
-sudo adduser --disabled-password --gecos "" cuckoo
-
 sudo apt-get install python python-pip python-dev libffi-dev libssl-dev
 sudo apt-get install python-virtualenv python-setuptools
 sudo apt-get install libjpeg-dev zlib1g-dev swig
+
+
+sudo adduser --disabled-password --gecos "" cuckoo
+
 
 sudo apt-get install mongodb
 
