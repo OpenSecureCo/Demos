@@ -79,6 +79,10 @@ sudo mkdir /mnt/win7
 sudo chown cuckoo:cuckoo /mnt/win7/
 sudo mount -o ro,loop win7ultimate.iso /mnt/win7
 
+sudo apt-get -y install build-essential libssl-dev libffi-dev python-dev genisoimage
+sudo apt-get -y install zlib1g-dev libjpeg-dev
+sudo apt-get -y install python-pip python-virtualenv python-setuptools swig
+
 pip install -U vmcloak
 
 vmcloak-vboxnet0
