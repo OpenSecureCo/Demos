@@ -68,8 +68,8 @@ source ~/.bashrc
 
 mkvirtualenv -p python2.7 cuckoo-test
 
-sudo pip install -U pip setuptools
-sudo pip install -U cuckoo
+pip install -U pip setuptools
+pip install -U cuckoo
 
 
 ----------setup virtual machine--------
