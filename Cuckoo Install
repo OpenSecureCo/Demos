@@ -27,6 +27,8 @@ sudo pip install m2crypto
 
 sudo usermod -a -G vboxusers cuckoo
 
+sudo su cuckoo
+
 
 -----------------------------------------
 #!/usr/bin/env bash
