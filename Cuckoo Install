@@ -63,8 +63,9 @@ echo "export WORKON_HOME=~/.virtualenvs" >> ~/.bashrc
 
 echo "export PIP_VIRTUALENV_BASE=~/.virtualenvs" >> ~/.bashrc 
 
-source ~/.bashrc
 ---------------------------------
+
+source ~/.bashrc
 
 mkvirtualenv -p python2.7 cuckoo-test
 
