@@ -1,21 +1,18 @@
 
 
-sudo apt-get update
-sudo apt-get install python python-pip python-dev libffi-dev libssl-dev
-sudo apt-get install python-virtualenv python-setuptools
-sudo apt-get install libjpeg-dev zlib1g-dev swig
+sudo apt update
+sudo apt upgrade
+sudo apt-get install python python-pip python-dev libffi-dev libssl-dev -y
+sudo apt-get install python-virtualenv python-setuptools -y
+sudo apt-get install libjpeg-dev zlib1g-dev swig -y
+sudo apt-get install mongodb -y
+sudo apt-get install postgresql libpq-dev -y
+sudo apt install virtualbox -y
+sudo apt-get install tcpdump apparmor-utils -y
 
 
 sudo adduser --disabled-password --gecos "" cuckoo
 
-
-sudo apt-get install mongodb
-
-sudo apt-get install postgresql libpq-dev
-
-sudo apt install virtualbox
-
-sudo apt-get install tcpdump apparmor-utils
 
 sudo groupadd pcap
 sudo usermod -a -G pcap cuckoo
@@ -64,6 +61,8 @@ echo "export WORKON_HOME=~/.virtualenvs" >> ~/.bashrc
 echo "export PIP_VIRTUALENV_BASE=~/.virtualenvs" >> ~/.bashrc 
 
 ---------------------------------
+
+sudo -u cuckoo cuckoo-setup-virtualenv.sh
 
 source ~/.bashrc
 
