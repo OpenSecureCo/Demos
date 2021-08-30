@@ -62,7 +62,7 @@ echo "export PIP_VIRTUALENV_BASE=~/.virtualenvs" >> ~/.bashrc
 
 ---------------------------------
 
-sudo -u cuckoo cuckoo-setup-virtualenv.sh
+sudo -u *current user* cuckoo-setup-virtualenv.sh
 
 source ~/.bashrc
 
