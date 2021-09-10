@@ -34,7 +34,7 @@ And read Index permissions for wazuh* indices, with the Document level security 
         },
         {
           "match_phrase": {
-            "agent.labels.server-A": "yes"
+            "agent.labels.server-A": "server-A"
           }
         }        
       ],
