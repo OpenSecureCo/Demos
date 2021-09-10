@@ -1,0 +1,80 @@
+agents-server-A:
+
+
+Configure a label in the Agent group centralized configuration. You can do this by modifying the file 
+
+/var/ossec/etc/shared/<GROUP-NAME>/agent.conf, or by editing the file from this option:
+
+
+This is the configuration you need:
+
+<agent_config>
+	<labels>
+		<label key="server-A">yes</label>
+	</labels>
+</agent_config>
+
+Configure an Opendistro Role to give access to alerts to agents with that label. You will have to go to 
+
+Management >> Security:
+
+
+And then create a role (in my example it is read_server_A) with indices_all, read and kibana_all_read as Cluster permissions:
+
+
+And read Index permissions for wazuh* indices, with the Document level security that is below:
+
+
+{
+    "bool": {
+      "must": [],
+      "filter": [
+        {
+          "match_all": {}
+        },
+        {
+          "match_phrase": {
+            "agent.labels.server-A": "yes"
+          }
+        }        
+      ],
+      "should": [],
+      "must_not": []
+    }
+}
+
+Then, map the role to the user(s) that you need to give access to those agents alerts:
+
+
+ 
+Then, for Wazuh App permissions, you will have to do the following:
+
+Set the parameter 
+
+run_as to yes in the /usr/share/kibana/optimize/wazuh/config/wazuh.yml file and save it. For example, in my case this is the hosts section:
+
+hosts:
+  - default:
+     url: https://localhost
+     port: 55000
+     username: wazuh-wui
+     password: wazuh-wui
+     run_as: true
+
+Go to 
+
+Wazuh >> Security >> Policies:
+
+
+Click on 
+
+Create Policy:
+
+
+Give it a name, and configure it to give read access permissions to the Agent group
+
+
+Go to Roles and create a new role that contains the created policy
+
+
+Go to Roles Mapping and map the created role to the user you need to have access
