@@ -10,7 +10,7 @@ This is the configuration you need:
 
 <agent_config>
 	<labels>
-		<label key="server-A">yes</label>
+		<label key="server-A">server-A</label>
 	</labels>
 </agent_config>
 
@@ -51,7 +51,7 @@ Then, for Wazuh App permissions, you will have to do the following:
 
 Set the parameter 
 
-run_as to yes in the /usr/share/kibana/optimize/wazuh/config/wazuh.yml file and save it. For example, in my case this is the hosts section:
+run_as to yes in the /usr/share/kibana/data/wazuh/config/wazuh.yml file and save it. For example, in my case this is the hosts section:
 
 hosts:
   - default:
