@@ -14,12 +14,12 @@
 	<rule id="100000" level="3">
 		<if_sid>86601</if_sid>
 		<hostname>eventuallatex</hostname>
-		<description>Chicago Honeypot App Prod4080 - $(alert.signature)</description>
+		<description>Honeypot - $(alert.signature)</description>
 	</rule>
 </group>
 <!-- Group Honeypot Alerts -->
 	<!-- Honeypot Suricata Alerts -->
-	<group name="HoneypotAlerts,ChicagoHoneypots">
+	<group name="HoneypotAlerts">
 	<rule id="100014" level="11">
 			<if_sid>100000</if_sid>
 			<field name="alert.severity">3</field>
