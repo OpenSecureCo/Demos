@@ -43,3 +43,5 @@
 			<field name="eventid">cowrie.login.failed</field>
 			<description>$(username) tried to login to honeypot.</description>
 		</rule>
+		</group>
+		
