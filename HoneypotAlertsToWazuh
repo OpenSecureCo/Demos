@@ -1,0 +1,45 @@
+
+<localfile>
+		<log_format>json</log_format>
+		<location>/data/cowrie/log/cowrie.json</location>
+	</localfile>
+	<localfile>
+		<log_format>json</log_format>
+		<location>/data/suricata/log/eve.json</location>
+	</localfile>
+  
+
+<!-- Group Honeypot Servers -->
+<group name="HoneypotServers">
+	<rule id="100000" level="3">
+		<if_sid>86601</if_sid>
+		<hostname>eventuallatex</hostname>
+		<description>Chicago Honeypot App Prod4080 - $(alert.signature)</description>
+	</rule>
+</group>
+<!-- Group Honeypot Alerts -->
+	<!-- Honeypot Suricata Alerts -->
+	<group name="HoneypotAlerts,ChicagoHoneypots">
+	<rule id="100014" level="11">
+			<if_sid>100000</if_sid>
+			<field name="alert.severity">3</field>
+			<description>Honeypot Suricata Alert Severity 3 - $(alert.signature). Source IP: $(src_ip). Destination IP: $(dest_ip).</description>
+			</rule>
+	<rule id="100015" level="11">
+			<if_sid>100000</if_sid>
+			<field name="alert.severity">2</field>
+			<description>Honeypot Suricata Alert Severity 2 - $(alert.signature). Source IP: $(src_ip). Destination IP: $(dest_ip).</description>
+			</rule>
+	<rule id="100016" level="11">
+			<if_sid>100000</if_sid>
+			<field name="alert.severity">1</field>
+			<description>Honeypot Suricata Alert Severity 1 - $(alert.signature). Source IP: $(src_ip). Destination IP: $(dest_ip).</description>
+			</rule>
+	</group>
+	<!-- Honeypot login attempts -->
+	<group name="HoneypotLogin">
+		<rule id="100075" level="11">
+			<decoded_as>json</decoded_as>
+			<field name="eventid">cowrie.login.failed</field>
+			<description>$(username) tried to login to honeypot.</description>
+		</rule>
