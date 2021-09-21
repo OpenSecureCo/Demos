@@ -75,7 +75,7 @@ pip install -U cuckoo
 
 
 ----------setup virtual machine--------
-wget https://cuckoo.sh/win7ultimate.iso
+sudo wget https://cuckoo.sh/win7ultimate.iso
 sudo mkdir /mnt/win7
 sudo chown cuckoo:cuckoo /mnt/win7/
 sudo mount -o ro,loop win7ultimate.iso /mnt/win7
