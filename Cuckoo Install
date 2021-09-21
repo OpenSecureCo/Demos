@@ -13,7 +13,6 @@ sudo apt-get install tcpdump apparmor-utils -y
 
 sudo adduser --disabled-password --gecos "" cuckoo
 
-sudo apt-get install tcpdump apparmor-utils
 sudo groupadd pcap
 sudo usermod -a -G pcap cuckoo
 sudo chgrp pcap /usr/sbin/tcpdump
