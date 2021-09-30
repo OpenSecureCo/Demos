@@ -49,3 +49,12 @@
         ]
     }
 }
+
+
+
+
+
+------------------------------------------------------
+
+sed -i 's/  "settings": {/  "settings": {\n    "opendistro.index_state_management.policy_id": "wazuh-index-state-policy",/g' /etc/filebeat/wazuh-template.json
+filebeat setup --index-management
