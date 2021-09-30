@@ -1,0 +1,51 @@
+{
+    "policy": {
+        "description": "Wazuh index state management for OpenDistro to move indices into a cold state after 30 days and delete them after a year.",
+        "default_state": "hot",
+        "states": [
+            {
+                "name": "hot",
+                "actions": [
+                    {
+                        "replica_count": {
+                            "number_of_replicas": 1
+                        }
+                    }
+                ],
+                "transitions": [
+                    {
+                        "state_name": "cold",
+                        "conditions": {
+                            "min_index_age": "30d"
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "cold",
+                "actions": [
+                    {
+                        "read_only": {}
+                    }
+                ],
+                "transitions": [
+                    {
+                        "state_name": "delete",
+                        "conditions": {
+                            "min_index_age": "365d"
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "delete",
+                "actions": [
+                    {
+                        "delete": {}
+                    }
+                ],
+                "transitions": []
+            }
+        ]
+    }
+}
