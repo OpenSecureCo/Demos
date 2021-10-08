@@ -5,52 +5,10 @@ yum -y install clamav-server clamav-data clamav-update clamav-filesystem clamav 
 freshclam
 
 crontab -e
-## It is ok to execute it as root; freshclam drops privileges and becomes
-## user 'clamupdate' as soon as possible
-0  */3 * * * root /usr/share/clamav/freshclam-sleep
+@hourly   /usr/local/bin/freshclam --quiet
 
-The */3 in the second column from the left indicates that ClamAV will check for updates every 3 hours.
 
-/etc/sysconfig/freshclam
+groupadd clamav
+useradd -g clamav -s /bin/false -c "Clam Antivirus" clamav
 
-FRESHCLAM_DELAY=disabled
 
-/etc/clamd.d/scan.conf
-
-User root
-
-cp -ap /usr/lib/systemd/system/clamd@.service /etc/systemd/system/clamd.service
-
-systemctl enable clamd.service --now
-
-You can follow this step if you wish to configure auto scan of any directory as by default you will have to initiate manual scan.
-
-We will create a new systemd service unit file :
-
-cat /etc/systemd/system/clamdscan-home.service
-[Unit]
-Description=ClamAV virus scan
-Requires=clamd.service
-After=clamd.service
-
-[Service]
-ExecStart=/usr/bin/clamdscan /tmp
-StandardOutput=syslog
-
-[Instal]
-WantedBy=multi-user.target
-
-Perform a periodic scan with mapping timer
-
-cat /etc/systemd/system/clamdscan-home.timer
-[Unit]
-Description=Scan /home directory using ClamAV
-
-[Timer]
-OnCalendar=18:40:00
-Persistent=true
-
-[Install]
-WantedBy=timers.target
-
-systemctl enable clamdscan-home.timer --now
