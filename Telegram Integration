@@ -1,0 +1,97 @@
+nano /var/ossec/integrations/custom-telegram
+-----------------------------------------------------------------------
+<#!/bin/sh
+
+WPYTHON_BIN="framework/python/bin/python3"
+
+SCRIPT_PATH_NAME="$0"
+
+DIR_NAME="$(cd $(dirname ${SCRIPT_PATH_NAME}); pwd -P)"
+SCRIPT_NAME="$(basename ${SCRIPT_PATH_NAME})"
+
+case ${DIR_NAME} in
+    */active-response/bin | */wodles*)
+        if [ -z "${WAZUH_PATH}" ]; then
+            WAZUH_PATH="$(cd ${DIR_NAME}/../..; pwd)"
+        fi
+
+        PYTHON_SCRIPT="${DIR_NAME}/${SCRIPT_NAME}.py"
+    ;;
+    */bin)
+        if [ -z "${WAZUH_PATH}" ]; then
+            WAZUH_PATH="$(cd ${DIR_NAME}/..; pwd)"
+        fi
+
+        PYTHON_SCRIPT="${WAZUH_PATH}/framework/scripts/${SCRIPT_NAME}.py"
+    ;;
+     */integrations)
+        if [ -z "${WAZUH_PATH}" ]; then
+            WAZUH_PATH="$(cd ${DIR_NAME}/..; pwd)"
+        fi
+
+        PYTHON_SCRIPT="${DIR_NAME}/${SCRIPT_NAME}.py"
+    ;;
+esac
+
+
+${WAZUH_PATH}/${WPYTHON_BIN} ${PYTHON_SCRIPT} "$@"
+-----------------------------------------------------------------------------------
+
+nano /var/ossec/integrations/custom-telegram.py
+
+-----------------------------------------------------------------------------------
+#!/usr/bin/env python
+
+import sys
+import json
+import requests
+from requests.auth import HTTPBasicAuth
+
+#CHAT_ID="xxxx"
+CHAT_ID=""
+
+# Read configuration parameters
+alert_file = open(sys.argv[1])
+hook_url = sys.argv[3]
+
+
+# Read the alert file
+alert_json = json.loads(alert_file.read())
+alert_file.close()
+
+# Extract data fields
+alert_level = alert_json['rule']['level'] if 'level' in alert_json['rule'] else "N/A"
+description = alert_json['rule']['description'] if 'description' in alert_json['rule'] else "N/A"
+agent = alert_json['agent']['name'] if 'name' in alert_json['agent'] else "N/A"
+# Generate request
+msg_data = {}
+msg_data['chat_id'] = CHAT_ID
+msg_data['text'] = {}
+msg_data['text']['description'] =  description
+msg_data['text']['alert_level'] = str(alert_level)
+msg_data['text']['agent'] =  agent
+headers = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
+
+
+# Send the request
+requests.post(hook_url, headers=headers, data=json.dumps(msg_data))
+
+sys.exit(0)
+------------------------------------------------------------------------------------------------------
+
+chown root:ossec /var/ossec/integrations/custom-telegram*
+
+chmod 750 /var/ossec/integrations/custom-telegram*
+
+--------------------------------------------------------------------------------------------------------
+nano /var/ossec/etc/ossec.conf
+
+<integration>
+        <name>custom-telegram</name>
+        <level>3</level>
+        <hook_url>https://api.telegram.org/bot*YOUR API KEY*c/sendMessage</hook_url>
+        <alert_format>json</alert_format>
+    </integration
+    
+ ----------------------------------------------------------------------------------------------------------
+ systemctl restart wazuh-manager
