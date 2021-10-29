@@ -1,6 +1,6 @@
 nano /var/ossec/integrations/custom-telegram
 -----------------------------------------------------------------------
-<#!/bin/sh
+#!/bin/sh
 
 WPYTHON_BIN="framework/python/bin/python3"
 
