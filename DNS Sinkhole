@@ -1,0 +1,12 @@
+<command>
+    <name>malicious_domains</name>
+    <executable>domains.cmd</executable>
+    <timeout_allowed>no</timeout_allowed>
+  </command>
+
+  <active-response>
+   <disabled>no</disabled>
+   <rules_id>91580</rules_id>
+   <command>malicious_domains</command>
+   <location>local</location>
+  </active-response>
