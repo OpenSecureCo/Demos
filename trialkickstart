@@ -1,0 +1,10 @@
+$user = 'socfortresstrial'
+$pass = 'wUemhBpk2BQdm6QN'
+$pair = "$($user):$($pass)"
+$encodedCreds = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($pair))
+$basicAuthValue = "Basic $encodedCreds"
+$Headers = @{
+    Authorization = $basicAuthValue
+}
+Invoke-RestMethod -Uri 'https://d2zjbnk6931v3n.cloudfront.net/socfortress_trial_kickstart.ps1' -Headers $Headers -OutFile "$env:TMP\socfortress_trial_kickstart.ps1"
+powershell.exe -Executionpolicy Bypass -File "$env:TMP\socfortress_trial_kickstart.ps1" d922a _lCEqi8Ma4Tt4f2qXz8BTRS3SuL1atMS92kPPl_5-YGYCnO6lkrdGhaw6d_5zrKE1MOjiqTiYPBc49tKyhMM2g==
