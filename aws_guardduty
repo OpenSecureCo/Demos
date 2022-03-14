@@ -1,0 +1,43 @@
+##ROLE POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "VisualEditor0",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:ListBucket",
+        "s3:DeleteObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::opensecure-guardduty",
+        "arn:aws:s3:::opensecure-guardduty/*"
+      ]
+    }
+  ]
+}
+
+
+###RULE
+<group name="aws_guardduty,amazon">
+ <rule id="100020" level="5">
+    <decoded_as>json</decoded_as>
+    <field name="source">aws.guardduty</field>
+    <description>AWS GuardDuty Alert</description>
+    <options>no_full_log</options>
+  </rule>
+  </group>
+  
+ 
+##WODLE
+<wodle name="aws-s3">
+  <disabled>no</disabled>
+  <interval>1m</interval>
+  <run_on_start>yes</run_on_start>
+  <skip_on_error>no</skip_on_error>
+  <bucket type="guardduty">
+    <name>opensecure-guardduty</name>
+    <aws_profile>default</aws_profile>
+  </bucket>
+</wodle>
